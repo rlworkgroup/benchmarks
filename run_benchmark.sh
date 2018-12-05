@@ -12,7 +12,7 @@ docker run --name garage_benchmark -e MJKEY="$(cat ~/.mujoco/mjkey.txt)" garage-
 echo "done running benchmarks from docker"
 
 rm -rf garage-dashboard/resources/*
-docker cp garage_benchmark:/root/code/garage/benchmark_ddpg/latest/*.png garage-dashboard/resources
+docker cp garage_benchmark:/root/code/garage/benchmark_ddpg/latest/*.png docs/resources
 echo "done copying results"
 
 #clear the resources folder
