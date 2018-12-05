@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" type="text/css" href="App.css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+            $scope.result  = {
+                "time" : "November 11th 1:24:00",
+                "branch":"Master",
+                "graphs":[
+                    "./resources/HalfCheetah-v2_benchmark.png",
+                    "./resources/InvertedDoublePendulum-v2_benchmark.png",
+                    "./resources/Reacher-v2_benchmark.png  ",
+                    "./resources/Walker2d-v2_benchmark.png",
+                    "./resources/Hopper-v2_benchmark.png",       
+                    "./resources/InvertedPendulum-v2_benchmark.png",        
+                    "./resources/Swimmer-v2_benchmark.png",
+                ]
+            }
+        });
+    </script>
+
+
+    <body>
+        <div ng-app="myApp" ng-controller="myCtrl">
+            <header class="App-header">Garage Benchmarking</header>
+            <div>
+                <h2> The results were last updated on: {{result.time}}</h2>
+                <p> Garage Branch: {{result.branch}}</p>
+            </div>
+            <div class="App-results" ng-repeat="x in result.graphs"> 
+                <img class="App-graph" src={{x}} />
+            </div>
+        </div>
+    </body>
+</html>
