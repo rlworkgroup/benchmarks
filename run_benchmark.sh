@@ -15,7 +15,3 @@ rm -rf garage-dashboard/resources/*
 docker cp garage_benchmark:/root/code/garage/benchmark_ddpg/latest/*.png docs/resources
 echo "done copying results"
 
-#clear the resources folder
-# rm -rf garage-dashboard/resources/*
-# cp -r benchmark_ddpg/latest/*.png garage-dashboard/resources
-
