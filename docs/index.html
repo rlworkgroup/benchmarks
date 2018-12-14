@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 <html>
-    <link rel="stylesheet" type="text/css" href="App.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-    <script>
-        var app = angular.module('myApp', []);
-        app.controller('myCtrl', function($scope) {
-            $scope.result  = {
-                "time" : "November 11th 1:24:00",
-                "branch":"Master",
-                "graphs":[
-                    "./resources/HalfCheetah-v2_benchmark.png",
-                    "./resources/InvertedDoublePendulum-v2_benchmark.png",
-                    "./resources/Reacher-v2_benchmark.png  ",
-                    "./resources/Walker2d-v2_benchmark.png",
-                    "./resources/Hopper-v2_benchmark.png",       
-                    "./resources/InvertedPendulum-v2_benchmark.png",        
-                    "./resources/Swimmer-v2_benchmark.png",
-                ]
-            }
-        });
-    </script>
-
+    <head>
+        <link rel="stylesheet" type="text/css" href="App.css"/>    
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
 
     <body>
-        <div ng-app="myApp" ng-controller="myCtrl">
+        <div>
             <header class="App-header">Garage Benchmarking</header>
-            <div>
-                <h2> The results were last updated on: {{result.time}}</h2>
-                <p> Garage Branch: {{result.branch}}</p>
-            </div>
-            <div class="App-results" ng-repeat="x in result.graphs"> 
-                <img class="App-graph" src={{x}} />
+            <div id="data-panel">
+                <h3> Algorithm: <small id="algo">Default<small> </h3>
+                <h3> Time last updated: <small id="time"></small> </h3>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Tasks
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li onclick="createGraph(0)">Hopper v2</li>
+                        <li onclick="createGraph(1)">Half Cheetah v2</li>
+                        <li onclick="createGraph(2)">Inverted Pendulum v2</li>
+                        <li onclick="createGraph(3)">Inverted Double Pendulum v2</li>
+                        <li onclick="createGraph(4)">Swimmer v2</li>
+                        <li onclick="createGraph(5)">Reacher v2</li>
+                        <li onclick="createGraph(6)">Walker v2</li>
+                    </ul>
+                </div>
             </div>
         </div>
+        <div id="tester" style="width:90%;height:550px;"></div>
     </body>
 </html>
+<script src="App.js" type="text/javascript"></script>
