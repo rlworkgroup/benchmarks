@@ -13,7 +13,7 @@ function createGraph(num){
             3:"InvertedDoublePendulum-v2",
             4:"Swimmer-v2",
             5:"Reacher-v2",
-            6:"Walker-v2"
+            6:"Walker2d-v2"
         }
         var task = tasks[num];
         var algo = document.getElementById('algo');
