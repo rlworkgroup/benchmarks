@@ -14,6 +14,7 @@ cd "$work_dir/garage"
 git checkout "$branch"
 
 docker build . -t garage-ci -f docker/Dockerfile.ci --build-arg MJKEY="$(cat ~/.mujoco/mjkey.txt)"
+docker stop garage_benchmark
 docker rm garage_benchmark
 docker run --name garage_benchmark -e MJKEY="$(cat ~/.mujoco/mjkey.txt)" garage-ci nose2 -c setup.cfg "$test_file"
 echo "done running benchmarks in docker"
