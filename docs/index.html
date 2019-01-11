@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="App.css"/>    
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </head>
 
     <body>
         <div>
             <header class="App-header">Garage Benchmarking</header>
             <div id="data-panel">
-                <h3> Algorithm: <small id="algo">Default<small> </h3>
-                <h3> Time last updated: <small id="time"></small> </h3>
+                <p> Time last updated: <small id="time"></small> </p>
                 <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Tasks
+                    <button class="btn btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"> <small id="task">Task</small>
                     <span class="caret"></span></button>
-                    <ul class="dropdown-menu">
-                        <li onclick="createGraph(0)">Hopper v2</li>
-                        <li onclick="createGraph(1)">Half Cheetah v2</li>
-                        <li onclick="createGraph(2)">Inverted Pendulum v2</li>
-                        <li onclick="createGraph(3)">Inverted Double Pendulum v2</li>
-                        <li onclick="createGraph(4)">Swimmer v2</li>
-                        <li onclick="createGraph(5)">Reacher v2</li>
-                        <li onclick="createGraph(6)">Walker v2</li>
-                    </ul>
+                    <ul id="task_dropdown" class="dropdown-menu"></ul>
                 </div>
+                <div class="dropdown">
+                    <button class="btn btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"> <small id="algo">Algo</small>
+                    <span class="caret"></span></button>
+                    <ul id="algo_dropdown" class="dropdown-menu"></ul>
+                </div>
+                      <!-- <h3> Algorithms: <small id="algo">Default<small> </h3> -->
+          
+             
             </div>
         </div>
         <div id="tester" style="width:90%;height:550px;"></div>

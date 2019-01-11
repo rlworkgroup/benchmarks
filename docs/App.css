@@ -11,6 +11,7 @@
 }
 
 
+
 .App-header {
   background-color: #666699;
   min-height: 50vh;
@@ -20,6 +21,11 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color:white;
+}
+
+.btn{
+  margin-top:30px;
+  margin-bottom:10px;
 }
 
 #data-panel{
