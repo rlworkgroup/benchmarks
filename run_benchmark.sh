@@ -28,7 +28,7 @@ echo "done copying results"
 jsonfile="$work_dir/docs/resources/progress.json"
 if [ -f "$jsonfile" ]
 then
-    git add -A "$jsonfile"
+    git add "$jsonfile"
     git commit -m "update progress json"
     git push
 else
