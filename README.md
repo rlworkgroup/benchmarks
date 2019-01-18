@@ -1,2 +1,2 @@
-# garage_benchmarks
-https://cheng-kevin.github.io/garage_benchmarks/
+# benchmarks
+Continuous benchmarking of popular reinforcement learning algorithms
