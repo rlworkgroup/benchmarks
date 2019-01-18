@@ -1,39 +1,78 @@
-createGraph(0);
+var tasks = [
+    "Hopper-v2",
+    "HalfCheetah-v2",
+    "InvertedPendulum-v2",
+    "InvertedDoublePendulum-v2",
+    "Swimmer-v2",
+    "Reacher-v2",
+    "Walker2d-v2"
+];
+var algos=[
+    "DDPG",
+    "HER",
+    "TRPO",
+    "PPO"
+];
 
-function createGraph(num){
+var task = tasks[0];
+var algo = algos[0];
+var selectedAlgos = [algos[0],algos[1]];
+renderPage();
+
+function renderPage(){
+    $.each( tasks, function( index, task ) {
+        $('#task_dropdown').append(
+            `<li onclick=\"selectTask(${index})\"> ${task}</li>`)
+    });
+    $.each( algos, function( index, algo ) {
+        $('#algo_dropdown').append(
+            `<li ><input type=\"checkbox\" /> ${algo}</li>`)
+    });
+    
+    createGraph();
+}
+function selectTask(num){
+    task = tasks[num];
+    createGraph();
+}
+
+function selectAlgo(nums){
+    algo = algos[num];
+    createGraph();
+}
+
+function createGraph(){
     fetch("./resources/progress.json")
     .then(function(response) {
         return response.json();
     })
     .then(function(resultJson) {
-        var tasks = {
-            0:"Hopper-v2",
-            1:"HalfCheetah-v2",
-            2:"InvertedPendulum-v2",
-            3:"InvertedDoublePendulum-v2",
-            4:"Swimmer-v2",
-            5:"Reacher-v2",
-            6:"Walker2d-v2"
-        }
-        var task = tasks[num];
-        var algo = document.getElementById('algo');
-        var time = document.getElementById('time');
-   
-        algo.textContent = "DDPG"
-        time.textContent = resultJson.time_start;
+        var algoElem = $('#algo')[0].textContent = algo;
+        var timeElem = $('#time')[0].textContent = resultJson.time_start;//convert to MON/DD/YYYY
+        var taskElem = $('#task')[0].textContent = task;
 
-        var data  = formatData(resultJson[task])
-        console.log(data);
+        var data  = formatData(resultJson[task], algo)
         plot(task, data);
     });
 }
 
-function formatData(task_data){
+function formatData(task_data, algo){
     var data = [];
     for(var key in task_data){
         if(task_data.hasOwnProperty(key)){
-            data.push( formatDataLine(key+"_garage",task_data[key].garage.Epoch  , task_data[key].garage.AverageReturn , "dot"));
-            data.push( formatDataLine(key+"_baselines",task_data[key].baselines["total/epochs"],task_data[key].baselines["rollout/return"] ,"line"));
+            data.push( 
+                formatDataLine( 
+                    `garage_${algo}_${key}`,
+                    task_data[key].garage.Epoch  , 
+                    task_data[key].garage.AverageReturn , 
+                    "dot"));
+
+            data.push( 
+                formatDataLine( 
+                    `baselines_${algo}_${key}`,
+                    task_data[key].baselines["total/epochs"],
+                    task_data[key].baselines["rollout/return"] ,
+                    "line"));
         }
     }
     return data;
@@ -43,19 +82,19 @@ function plot( taskname, data){
     var layout = {
         title: taskname,
         xaxis: {
-          title: 'Epochs',
-          autorange: true
+        title: 'Epochs',
+        autorange: true
         },
         yaxis: {
-          title: 'AverageReturns',
-          autorange: true
+        title: 'AverageReturns',
+        autorange: true
         },
         legend: {
-          y: 0.5,
-          traceorder: 'reversed',
-          font: {
+        y: 0.5,
+        traceorder: 'reversed',
+        font: {
             size: 16
-          }
+        }
         }
     }
     Plotly.newPlot( chart, data, layout);
@@ -68,10 +107,10 @@ function formatDataLine(name, x, y, linetype){
         mode: 'lines',
         name: name,
         line: {
-          dash: linetype,
-          width: 4
+        dash: linetype,
+        width: 4
         }
-      }
+    }
     return trace;
 }
 
@@ -82,4 +121,3 @@ function jsonToArr(json_data){
     }
     return result;
 }
-
