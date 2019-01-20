@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #define working directory
-work_dir="/home/kevincheng/Git/garage_benchmarks/"
+work_dir="/home/kevincheng/Git/benchmarks/"
 #pull repo to working directory
 repo="https://github.com/rlworkgroup/garage.git"
 branch="automated-benchmarking"
