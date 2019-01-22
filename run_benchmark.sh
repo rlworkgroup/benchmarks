@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 #define working directory
-work_dir="/home/kevincheng/Git/garage_benchmarks/"
+work_dir="/home/kevincheng/Git/benchmarks/"
 #pull repo to working directory
 repo="https://github.com/rlworkgroup/garage.git"
 branch="automated-benchmarking"
 test_file="tests.benchmarks.quicktest_ddpg"
-
 cd $work_dir
 rm -rf "$work_dir/garage"
+rm -rf "$work_dir/docs/resources/*"
 git clone "$repo"
 cd "$work_dir/garage"
 git checkout "$branch"
@@ -20,8 +20,7 @@ docker run --name garage_benchmark -e MJKEY="$(cat ~/.mujoco/mjkey.txt)" garage-
 echo "done running benchmarks in docker"
 
 cd "$work_dir"
-rm -rf "$work_dir/docs/resources/*"
-docker cp garage_benchmark:/root/code/garage/latest_results/ddpg/progress.json "$work_dir/docs/resources"
+docker cp garage_benchmark:/root/code/garage/latest_results/ddpg_progress.json "$work_dir/docs/resources/progress.json"
 echo "done copying results"
 
 #commit only if above was succesful.
