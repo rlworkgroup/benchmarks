@@ -17,18 +17,28 @@
         });
 
         this.selectable_algos = get_algo_tasks(results_json, this.tasks, this.algos)[this.selected_task]
-        //this.selected_algos = this.selectable_algos[0]//check if no algos selectable.
+        this.selected_algos = this.selectable_algos.slice()
 
         update_algo_dropdown(this.selectable_algos)
-        create_graph(results_json, this.selectable_algos, this.selected_task);
+        create_graph(results_json,  this.selected_algos, this.selected_task);
 
         this.selectTask = function (num){
             this.selected_task = this.tasks[num]
             this.selectable_algos = get_algo_tasks(results_json, this.tasks, this.algos)[this.selected_task]
+            this.selected_algos = this.selectable_algos.slice()
             update_algo_dropdown(this.selectable_algos)
+            create_graph(results_json,  this.selected_algos , this.selected_task);
+        }
 
-
-            create_graph(results_json, this.selectable_algos, this.selected_task);
+        this.selectAlgo = function(num){
+            algo = this.selectable_algos[num]
+            if( this.selected_algos.indexOf(algo) > -1){ 
+                this.selected_algos = selected_algos.filter( (val) => val != algo)
+            }
+            else{
+                this.selected_algos.push(algo)
+            }
+            create_graph(results_json,  this.selected_algos, this.selected_task);
         }
 
     })
@@ -39,7 +49,7 @@
             $('#algo')[0].textContent = ""
             $.each( selectable_algos, function( index, a ) {
                 $('#algo_dropdown').append(
-                    `<li><input type=\"checkbox\"/> ${a}</li>`)
+                    `<li><input onclick=\"selectAlgo(${index})\" type=\"checkbox\" checked=true /> ${a}</li>`)
             });
         }
         else{

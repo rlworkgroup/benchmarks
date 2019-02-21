@@ -10,6 +10,10 @@
   margin-right: auto;
 }
 
+ul{
+  list-style-type: none;
+}
+
 .App-header {
   background-color: #666699;
   min-height: 50vh;
@@ -20,6 +24,7 @@
   font-size: calc(10px + 2vmin);
   color:white;
 }
+
 
 .btn{
   margin-top:30px;
