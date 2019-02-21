@@ -1,123 +1,137 @@
-var tasks = [
-    "Hopper-v2",
-    "HalfCheetah-v2",
-    "InvertedPendulum-v2",
-    "InvertedDoublePendulum-v2",
-    "Swimmer-v2",
-    "Reacher-v2",
-    "Walker2d-v2"
-];
-var algos=[
-    "DDPG",
-    "HER",
-    "TRPO",
-    "PPO"
-];
+(function(){
 
-var task = tasks[0];
-var algo = algos[0];
-var selectedAlgos = [algos[0],algos[1]];
-renderPage();
-
-function renderPage(){
-    $.each( tasks, function( index, task ) {
-        $('#task_dropdown').append(
-            `<li onclick=\"selectTask(${index})\"> ${task}</li>`)
-    });
-    $.each( algos, function( index, algo ) {
-        $('#algo_dropdown').append(
-            `<li ><input type=\"checkbox\" /> ${algo}</li>`)
-    });
-    
-    createGraph();
-}
-function selectTask(num){
-    task = tasks[num];
-    createGraph();
-}
-
-function selectAlgo(nums){
-    algo = algos[num];
-    createGraph();
-}
-
-function createGraph(){
     fetch("./resources/progress.json")
-    .then(function(response) {
-        return response.json();
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(results_json){
+
+        this.tasks = results_json.tasks
+        this.selected_task = this.tasks[0]
+        this.algos = Object.keys(results_json.algos);
+
+        $('#task_dropdown').empty()
+        $.each( this.tasks, function( index, t ) {
+            $('#task_dropdown').append(
+                `<li onclick=\"selectTask(${index})\"> ${t}</li>`)
+        });
+
+        this.selectable_algos = get_algo_tasks(results_json, this.tasks, this.algos)[this.selected_task]
+        //this.selected_algos = this.selectable_algos[0]//check if no algos selectable.
+
+        update_algo_dropdown(this.selectable_algos)
+        create_graph(results_json, this.selectable_algos, this.selected_task);
+
+        this.selectTask = function (num){
+            this.selected_task = this.tasks[num]
+            this.selectable_algos = get_algo_tasks(results_json, this.tasks, this.algos)[this.selected_task]
+            update_algo_dropdown(this.selectable_algos)
+
+
+            create_graph(results_json, this.selectable_algos, this.selected_task);
+        }
+
     })
-    .then(function(resultJson) {
-        var algoElem = $('#algo')[0].textContent = algo;
-        var timeElem = $('#time')[0].textContent = resultJson.time_start;//convert to MON/DD/YYYY
-        var taskElem = $('#task')[0].textContent = task;
 
-        var data  = formatData(resultJson[task], algo)
-        plot(task, data);
-    });
-}
-
-function formatData(task_data, algo){
-    var data = [];
-    for(var key in task_data){
-        if(task_data.hasOwnProperty(key)){
-            data.push( 
-                formatDataLine( 
-                    `garage_${algo}_${key}`,
-                    task_data[key].garage.Epoch  , 
-                    task_data[key].garage.AverageReturn , 
-                    "dot"));
-
-            data.push( 
-                formatDataLine( 
-                    `baselines_${algo}_${key}`,
-                    task_data[key].baselines["total/epochs"],
-                    task_data[key].baselines["rollout/return"] ,
-                    "line"));
+    function update_algo_dropdown(selectable_algos){
+        $('#algo_dropdown').empty()
+        if(selectable_algos){
+            $('#algo')[0].textContent = ""
+            $.each( selectable_algos, function( index, a ) {
+                $('#algo_dropdown').append(
+                    `<li><input type=\"checkbox\"/> ${a}</li>`)
+            });
+        }
+        else{
+            $('#algo_dropdown').append("Task was not run")
         }
     }
-    return data;
-}
-function plot( taskname, data){
-    var chart = document.getElementById('tester');
-    var layout = {
-        title: taskname,
-        xaxis: {
-        title: 'Epochs',
-        autorange: true
-        },
-        yaxis: {
-        title: 'AverageReturns',
-        autorange: true
-        },
-        legend: {
-        y: 0.5,
-        traceorder: 'reversed',
-        font: {
-            size: 16
-        }
-        }
-    }
-    Plotly.newPlot( chart, data, layout);
-}
 
-function formatDataLine(name, x, y, linetype){
-    var trace = {
+    function create_graph(json, selected_algos, selected_task ){
+        var taskElem = $('#task')[0].textContent = selected_task
+        var data  = formatData(json, selected_task, selected_algos)//pass array of algos instead
+        var layout = {
+            title: selected_task,
+            xaxis: {
+                title: 'Time Steps',
+                autorange: true
+            },
+            yaxis: {
+                title: 'Average Returns',
+                autorange: true
+            },
+            legend: {
+                y: 0.5,
+                traceorder: 'reversed',
+                    font: {
+                        size: 16
+                    }
+                }
+        }
+        Plotly.newPlot( document.getElementById('tester'), data, layout);
+    }
+
+
+
+    function formatData(json, selected_task, selected_algos){
+        var data = [];
+        selected_algos.forEach(function(algo){
+            ["trail_1"].forEach(function(trail){
+                data.push( 
+                    formatDataLine( 
+                        `garage_${algo}_${trail}`,
+                        json.algos[algo][selected_task][trail].garage.time_steps  , 
+                        json.algos[algo][selected_task][trail].garage.return , 
+                        "dot"));
+    
+                data.push( 
+                    formatDataLine( 
+                        `baselines_${algo}_${trail}`,
+                        json.algos[algo][selected_task][trail].baselines.time_steps  , 
+                        json.algos[algo][selected_task][trail].baselines.return , 
+                        "line"));
+            })
+        })
+        return data;
+    }
+
+    function get_algo_tasks(resultsJson, tasks, algos){
+        //return an object that lists which algorithms ran against a given task
+        var algo_tasks = {}
+        tasks.forEach( function(t){
+            compatible_algos = []
+            algos.forEach(function(a){
+                if(resultsJson.algos[a].hasOwnProperty(t)){
+                    compatible_algos.push(a) 
+                }
+            })
+            algo_tasks[t]=compatible_algos
+        })
+        return algo_tasks
+    }
+
+    function formatDataLine(name, x, y, linetype){
+        var trace = {
         x: jsonToArr(x),
         y: jsonToArr(y),
         mode: 'lines',
         name: name,
         line: {
-        dash: linetype,
-        width: 4
+            dash: linetype,
+            width: 4
+            }
         }
+        return trace;
     }
-    return trace;
-}
 
-function jsonToArr(json_data){
-    var result = [];
-    for(var item in json_data){
-        result.push(json_data[item]);
+    function jsonToArr(json_data){
+        var result = [];
+        for(var item in json_data){
+            result.push(json_data[item]);
+        }
+        return result;
     }
-    return result;
-}
+
+    
+})()
+
