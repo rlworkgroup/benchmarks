@@ -6,6 +6,7 @@
         })
         .then(function(results_json){
 
+        $('#time')[0].textContent = results_json.timestamp
         this.tasks = results_json.tasks
         this.selected_task = this.tasks[0]
         this.algos = Object.keys(results_json.algos);
