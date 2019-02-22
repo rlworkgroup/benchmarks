@@ -61,7 +61,7 @@
         var taskElem = $('#task')[0].textContent = selected_task
         var data  = formatData(json, selected_task, selected_algos)//pass array of algos instead
         var layout = {
-            title: selected_task,
+            // title: selected_task,
             xaxis: {
                 title: 'Time Steps',
                 autorange: true
