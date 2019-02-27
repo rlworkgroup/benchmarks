@@ -1,34 +1,32 @@
-.App {
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-}
+
 
 .App-graph {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
 }
-
 
 
 .App-header {
-  background-color: #666699;
-  min-height: 50vh;
+  background-color: #ffffff;
+  min-height: 20vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
+  padding-left:50px;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color:white;
+  color:black;
+}
+
+ul li {
+  white-space:nowrap;
+  width:300px;
+}
+
+.dropdown{
+  padding-left:70px;
 }
 
 .btn{
-  margin-top:30px;
-  margin-bottom:10px;
-}
-
-#data-panel{
-  margin-left:50px;
+  width:300px;
+  font-size: 20px;
 }
 

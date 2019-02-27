@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
         <link rel="stylesheet" type="text/css" href="App.css"/>    
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -11,25 +11,33 @@
 
     <body>
         <div>
-            <header class="App-header">Garage Benchmarking</header>
-            <div id="data-panel">
+            <header class="App-header">
+                <h1>Garage Benchmarking</h1>
+                <br/>
                 <p> Time last updated: <small id="time"></small> </p>
+                <p> Read the <a href="https://rlgarage.readthedocs.io/en/latest/">garage documentation</a>  </p>
+                <p> Visit the <a href="https://github.com/rlworkgroup/garage"> garage repo</a>  </p>
+     
+            </header>
+            <hr/>
+            <div id="data-panel" class="row">
                 <div class="dropdown">
-                    <button class="btn btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"> <small id="task">Task</small>
+                    <button class="btn btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"> <small id="task">Task</small></button>
                     <span class="caret"></span></button>
                     <ul id="task_dropdown" class="dropdown-menu"></ul>
-                </div>
+                </div>   
+            
                 <div class="dropdown">
-                    <button class="btn btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"> <small id="algo">Algo</small>
+                    <button class="btn btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"> <small id="dfgh">Algorithms</small></button>
+                    <small id="algo">Algo</small>
                     <span class="caret"></span></button>
-                    <ul id="algo_dropdown" class="dropdown-menu"></ul>
+                    <ul id="algo_dropdown" class="dropdown-menu" style="list-style-type: none"></ul>
                 </div>
-                      <!-- <h3> Algorithms: <small id="algo">Default<small> </h3> -->
-          
-             
             </div>
         </div>
+        <br/>
         <div id="tester" style="width:90%;height:550px;"></div>
+        
     </body>
 </html>
 <script src="App.js" type="text/javascript"></script>

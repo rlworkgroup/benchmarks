@@ -15,8 +15,8 @@ git checkout "$branch"
 make build-headless
 
 rm -rf "$work_dir/temp/"; mkdir "$work_dir/temp/"
-#tests=( "test_ddpg_ci" ) 
-tests=( "test_ddpg_ci" "test_ppo_ci" "test_trpo_ci" ) 
+#tests=( "test_ppo_ci" ) 
+tests=( "test_ddpg_ci" "test_ppo_ci") 
 
 for i in "${tests[@]}"
     do
