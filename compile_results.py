@@ -5,7 +5,7 @@ import datetime
 def compile_results(in_path, out_file):
     results = {}
     results["algos"] = {}
-    results["timestamp"] = datetime.datetime.now()
+    results["timestamp"] = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
     for filename in os.listdir(in_path):
         if "progress" in filename:
             f = open(os.path.join(in_path, filename), 'r').read()
