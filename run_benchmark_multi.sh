@@ -15,7 +15,6 @@ git checkout "$branch"
 make build-headless
 
 rm -rf "$work_dir/temp/"; mkdir "$work_dir/temp/"
-#tests=( "test_ppo_ci" ) 
 tests=( "test_ddpg_ci" "test_ppo_ci") 
 
 for i in "${tests[@]}"
@@ -28,13 +27,13 @@ for i in "${tests[@]}"
 
 python "$work_dir/compile_results.py" "$work_dir/temp" "$work_dir/docs/resources/progress.json"
 # #commit only if above was succesful.
-# jsonfile="$work_dir/docs/resources/progress.json"
-# if [ -f "$jsonfile" ]
-# then
-#     git add "$jsonfile"
-#     git commit -m "update progress json"
-#     git push
-# else
-#     echo "progress.json not found"
-# fi 
+jsonfile="$work_dir/docs/resources/progress.json"
+if [ -f "$jsonfile" ]
+then
+    git add "$jsonfile"
+    git commit -m "update progress json"
+    git push
+else
+    echo "progress.json not found"
+fi 
 
