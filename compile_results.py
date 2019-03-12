@@ -6,12 +6,19 @@ def compile_results(in_path, out_file):
     results = {}
     results["algos"] = {}
     results["timestamp"] = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+    results["tasks"]=[]
     for filename in os.listdir(in_path):
         if "progress" in filename:
             f = open(os.path.join(in_path, filename), 'r').read()
             algo_json = json.loads(f)
             for algo in algo_json.keys():
                 results["algos"][algo] = algo_json[algo]
+                if type(algo_json[algo]) is str:
+                    continue
+                for task in algo_json[algo].keys():
+                    if task not in results["tasks"] and task != "time_start":
+                        results["tasks"].append(task)
+            
     f = open(out_file, "w")
     f.write(json.dumps(results))
     f.close()

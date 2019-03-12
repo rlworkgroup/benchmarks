@@ -15,14 +15,14 @@ git checkout "$branch"
 make build-headless
 
 rm -rf "$work_dir/temp/"; mkdir "$work_dir/temp/"
-tests=( "test_ddpg_ci" "test_ppo_ci") 
 
-for i in "${tests[@]}"
+for FILE in ls "$work_dir/garage/tests/benchmarks/continuous_integration/"*
     do
-            docker run --name garage_benchmark -e MJKEY="$(cat ~/.mujoco/mjkey.txt)" rlworkgroup/garage-headless nose2 -c setup.cfg tests.benchmarks.$i
-            docker cp garage_benchmark:/root/code/garage/latest_results/progress.json "$work_dir/temp/progress_$i.json"
+            testname = `basename $FILE .py`
+            docker run --name garage_benchmark -e MJKEY="$(cat ~/.mujoco/mjkey.txt)" rlworkgroup/garage-headless nose2 -c setup.cfg tests.benchmarks.continuous_integration.$testname
+            docker cp garage_benchmark:/root/code/garage/latest_results/progress.json "$work_dir/temp/progress_$testname.json"
             docker container rm garage_benchmark
-            echo "done with $i"
+            echo "done with $testname"
     done   
 
 python "$work_dir/compile_results.py" "$work_dir/temp" "$work_dir/docs/resources/progress.json"
