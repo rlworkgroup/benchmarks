@@ -8,15 +8,8 @@
 
         $('#time')[0].textContent = results_json.timestamp
 
-        this.tasks = [
-            "Hopper-v2",
-            "HalfCheetah-v2",
-            "InvertedPendulum-v2",
-            "InvertedDoublePendulum-v2",
-            "Swimmer-v2",
-            "Reacher-v2",
-            "Walker2d-v2"
-        ];
+        this.tasks = results_json.tasks
+        
         this.selected_task = this.tasks[0]
         this.algos = Object.keys(results_json.algos);
 
