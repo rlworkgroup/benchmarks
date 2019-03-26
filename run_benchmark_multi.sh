@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 #define working directory
-#work_dir="/home/kevincheng/Git/benchmarks"
 work_dir=$(pwd)
 # #pull repo to working directory
 repo="https://github.com/rlworkgroup/garage.git"
@@ -33,6 +32,7 @@ python "$work_dir/compile_results.py" "$work_dir/temp" "$work_dir/docs/resources
 jsonfile="$work_dir/docs/resources/progress.json"
 if [ -f "$jsonfile" ]
 then
+    cd "$work_dir"
     git add "$jsonfile"
     git commit -m "update progress json"
     git push
