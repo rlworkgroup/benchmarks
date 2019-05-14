@@ -7,7 +7,7 @@ def compile_results(in_path, out_file, git_hash):
     results["algos"] = {}
     results["timestamp"] = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
     results["tasks"]=[]
-    results["githash"]= "https://github.com/rlworkgroup/garage/commit/"+git_hash
+    results["githash"]= git_hash
     for filename in os.listdir(in_path):
         if "progress" in filename:
             f = open(os.path.join(in_path, filename), 'r').read()
