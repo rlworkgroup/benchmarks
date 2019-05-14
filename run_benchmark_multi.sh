@@ -11,6 +11,7 @@ rm -rf "$work_dir/garage";rm -rf "$work_dir/docs/resources/*"
 git clone "$repo"
 cd "$work_dir/garage"
 git checkout "$branch"
+hash=$(git rev-parse HEAD)
 
 make build-headless
 
@@ -27,7 +28,7 @@ for FILE in "$work_dir/garage/tests/benchmarks/"*
             echo "done with $testname"
     done   
 
-python "$work_dir/compile_results.py" "$work_dir/temp" "$work_dir/docs/resources/progress.json"
+python "$work_dir/compile_results.py" "$work_dir/temp" "$work_dir/docs/resources/progress.json" "$hash"
 #commit only if above was succesful.
 jsonfile="$work_dir/docs/resources/progress.json"
 if [ -f "$jsonfile" ]
