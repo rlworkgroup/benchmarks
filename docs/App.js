@@ -50,7 +50,6 @@
     function update_algo_dropdown(selectable_algos){
         $('#algo_dropdown').empty()
         if(selectable_algos){
-            $('#algo')[0].textContent = ""
             $.each( selectable_algos, function( index, a ) {
                 $('#algo_dropdown').append(
                     `<li><input onclick=\"selectAlgo(${index})\" type=\"checkbox\" checked=true /> ${a}</li>`)
