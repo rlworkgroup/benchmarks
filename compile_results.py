@@ -2,11 +2,12 @@ import os.path as osp
 import os, sys, json
 import datetime
 
-def compile_results(in_path, out_file):
+def compile_results(in_path, out_file, git_hash):
     results = {}
     results["algos"] = {}
     results["timestamp"] = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
     results["tasks"]=[]
+    results["githash"]= "https://github.com/rlworkgroup/garage/commit/"+git_hash
     for filename in os.listdir(in_path):
         if "progress" in filename:
             f = open(os.path.join(in_path, filename), 'r').read()
@@ -26,4 +27,5 @@ def compile_results(in_path, out_file):
 if __name__ == "__main__":
     in_path = sys.argv[1]
     out_file = sys.argv[2]
-    compile_results(in_path, out_file)
+    git_hash = sys.argv[3]
+    compile_results(in_path, out_file, git_hash)

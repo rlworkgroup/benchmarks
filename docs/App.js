@@ -7,6 +7,7 @@
         .then(function(results_json){
 
         $('#time')[0].textContent = results_json.timestamp
+        $('#githash').attr('href', results_json.githash)
 
         this.tasks = results_json.tasks
         
