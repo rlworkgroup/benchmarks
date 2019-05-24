@@ -8,6 +8,7 @@ def compile_results(in_path, out_file, git_hash):
     results["timestamp"] = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
     results["tasks"]=[]
     results["githash"]= git_hash
+
     for filename in os.listdir(in_path):
         if "progress" in filename:
             f = open(os.path.join(in_path, filename), 'r').read()
@@ -19,7 +20,10 @@ def compile_results(in_path, out_file, git_hash):
                 for task in algo_json[algo].keys():
                     if task not in results["tasks"] and task != "time_start":
                         results["tasks"].append(task)
-            
+    if len(results["tasks"]) is 0 or results["algos"] is 0:
+        #dont write file if data is missing.  this is how the benchmark.sh knows not to commit empty results
+        return
+
     f = open(out_file, "w")
     f.write(json.dumps(results))
     f.close()
