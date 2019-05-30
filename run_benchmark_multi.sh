@@ -21,11 +21,14 @@ docker container rm garage_benchmark
 for FILE in "$work_dir/garage/tests/benchmarks/"*
     do
             testname=`basename $FILE .py`
-            echo "running test: $testname"
-            docker run --name garage_benchmark -e MJKEY="$(cat ~/.mujoco/mjkey.txt)" rlworkgroup/garage-headless nose2 -c setup.cfg tests.benchmarks.$testname
-            docker cp garage_benchmark:/root/code/garage/latest_results/progress.json "$work_dir/temp/progress_$testname.json"
-            docker container rm garage_benchmark
-            echo "done with $testname"
+            if [[ $testname == "test"* ]]
+            then
+                echo "running test: $testname"
+                docker run --name garage_benchmark -e MJKEY="$(cat ~/.mujoco/mjkey.txt)" rlworkgroup/garage-headless nose2 -c setup.cfg tests.benchmarks.$testname
+                docker cp garage_benchmark:/root/code/garage/latest_results/progress.json "$work_dir/temp/progress_$testname.json"
+                docker container rm garage_benchmark
+                echo "done with $testname"
+            fi
     done   
 
 python "$work_dir/compile_results.py" "$work_dir/temp" "$work_dir/docs/resources/progress.json" "$hash"
