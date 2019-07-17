@@ -16,15 +16,15 @@ hash=$(git rev-parse HEAD)
 make build-headless
 
 rm -rf "$work_dir/temp/"; mkdir "$work_dir/temp/"
-docker container stop garage_benchmark
-docker container rm garage_benchmark
+docker container stop garage_benchmark || true && docker rm garage_benchmark || true
 for FILE in "$work_dir/garage/tests/benchmarks/"*
     do
             testname=`basename $FILE .py`
             if [[ $testname == "test"* ]]
             then
                 echo "running test: $testname"
-                docker run --name garage_benchmark -e MJKEY="$(cat ~/.mujoco/mjkey.txt)" rlworkgroup/garage-headless nose2 -c setup.cfg tests.benchmarks.$testname
+                #docker run --name garage_benchmark -e MJKEY="$(cat ~/.mujoco/mjkey.txt)" rlworkgroup/garage-headless nose2 -c setup.cfg tests.benchmarks.$testname
+                docker run --name garage_benchmark -e MJKEY="$(cat ~/.mujoco/mjkey.txt)" rlworkgroup/garage-headless pytest ./tests/benchmarks/$testname.py
                 docker cp garage_benchmark:/root/code/garage/latest_results/progress.json "$work_dir/temp/progress_$testname.json"
                 docker container rm garage_benchmark
                 echo "done with $testname"
