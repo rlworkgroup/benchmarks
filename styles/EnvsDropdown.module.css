@@ -1,0 +1,25 @@
+.section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.dropdown {
+    margin-top: 50px;
+}
+
+.dropdown-button {
+    width: 250px;
+}
+
+.dropdown-menu {
+    width: 100%;
+}
+
+.dropdown-content {
+    width: 250px;
+}
+
+.dropdown-item {
+    width: 250px;
+}

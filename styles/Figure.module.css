@@ -1,0 +1,11 @@
+.canvas-section {
+    margin: 30px auto;
+    min-height: 400px !important;
+    width: 60%;
+    max-width: 1000px;
+}
+
+.canvas-chart {
+    min-height: 400px !important;
+    width: 100%;
+}

@@ -1,0 +1,8 @@
+.footer-content {
+    display: flex;
+    justify-content: center;
+}
+
+.footer-item {
+    margin: 10px;
+}
